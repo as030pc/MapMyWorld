@@ -1,5 +1,6 @@
 create_tables.py
-.db
-alembic.ini
-alembic/
+*.db
 .env
+venv/
+test/
+__pycache__/

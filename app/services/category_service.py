@@ -1,10 +1,20 @@
 from sqlalchemy.orm import Session
 from app.models import Category
 from app.schemas import CategoryCreate
-
+from fastapi import HTTPException
 
 class CategoryService:
+    """
+    Servicio para manejar las operaciones relacionadas con las categorías.
+    """
+    
     def __init__(self, db: Session):
+        """
+        Inicializa el servicio con una sesión de base de datos.
+
+        Parámetros:
+            db (Session): Sesión de la base de datos.
+        """
         self.db = db
 
     def get_all_categories(self):
@@ -23,6 +33,13 @@ class CategoryService:
         """
         Crear una nueva categoría en la base de datos.
         """
+        existing_category = self.db.query(Category).filter(
+            Category.name == category_data.name
+        ).first()
+
+        if existing_category:
+            raise HTTPException(status_code=400, detail="La categoría ya existe")
+
         new_category = Category(**category_data.dict())
         self.db.add(new_category)
         self.db.commit()

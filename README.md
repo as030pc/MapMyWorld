@@ -17,8 +17,7 @@ Map My World es una API REST desarrollada con FastAPI para gestionar ubicaciones
 
 ### 1. Clonar el repositorio
 ```bash
-$ git clone <URL_DEL_REPOSITORIO>
-$ cd map_my_world
+$ git clone https://github.com/as030pc/MapMyWorld.git
 ```
 
 ### 2. Crear un entorno virtual (opcional pero recomendado)
@@ -64,7 +63,7 @@ map_my_world/
 │   │   ├── location_service.py
 │   │   ├── category_service.py
 │   │   ├── location_category_review_service.py
-├── migrations/  # Directorio generado por Alembic
+├── alembic/  # Directorio generado por Alembic
 ├── Dockerfile
 ├── docker-compose.yml
 ├── .env
@@ -79,11 +78,15 @@ map_my_world/
 ### Ejecutar localmente
 
 1. Activa tu entorno virtual si no está activo.
-2. Inicia la aplicación:
+2. Realizar las migraciones para la creacion de la db en SQLite:
+   ```bash
+   $ alembic upgrade head
+   ``` 
+3. Inicia la aplicación:
    ```bash
    $ uvicorn app.main:app --reload
    ```
-3. Abre tu navegador en [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs) para explorar la documentación interactiva de la API.
+4. Abre tu navegador en [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs) para explorar la documentación interactiva de la API.
 
 ### Usar Docker
 
@@ -111,9 +114,9 @@ map_my_world/
 - **PUT** `/categories/{id}`: Actualiza una categoría existente.
 - **DELETE** `/categories/{id}`: Elimina una categoría.
 
-### Revisiones de Ubicación-Categoría (`/location-category-reviews`)
-- **GET** `/location-category-reviews`: Obtiene recomendaciones de exploración.
-- **POST** `/location-category-reviews`: Crea una nueva revisión de ubicación-categoría.
+### Revisiones de Ubicación-Categoría (`/recomendations`)
+- **GET** `/recommendations`: Obtiene recomendaciones de exploración.
+- **POST** `/recommendations`: Crea una nueva revisión de ubicación-categoría.
 
 ---
 
@@ -151,6 +154,13 @@ Puedes acceder a la documentación interactiva de la API generada automáticamen
 Alternativamente, puedes usar la interfaz de Redoc en:
 
 [http://127.0.0.1:8000/redoc](http://127.0.0.1:8000/redoc)
+
+## Correr Test Unitarios
+Usa el siguiente comando para correr los test
+```bash
+$ pytest
+```
+
 
 
 

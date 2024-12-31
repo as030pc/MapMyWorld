@@ -10,7 +10,12 @@ router = APIRouter(prefix="/categories", tags=["Categories"])
 @router.get("/", response_model=list[CategoryResponse])
 def get_all_categories(db: Session = Depends(get_db)):
     """
-    Obtener todas las categorías.
+    Modelo de la tabla 'categories' en la base de datos.
+
+    Atributos:
+        id (int): Identificador único de la categoría.
+        name (str): Nombre de la categoría.
+        location_categories (relationship): Relación con la tabla 'location_categories_reviewed'.
     """
     service = CategoryService(db)
     return service.get_all_categories()
@@ -20,6 +25,13 @@ def get_all_categories(db: Session = Depends(get_db)):
 def get_category(category_id: int, db: Session = Depends(get_db)):
     """
     Obtener una categoría específica por su ID.
+
+    Parámetros:
+        category_id (int): Identificador único de la categoría.
+        db (Session): Sesión de la base de datos proporcionada por la dependencia.
+
+    Retorna:
+        CategoryResponse: La categoría correspondiente al ID proporcionado.
     """
     service = CategoryService(db)
     category = service.get_category_by_id(category_id)
@@ -32,6 +44,13 @@ def get_category(category_id: int, db: Session = Depends(get_db)):
 def create_category(category: CategoryCreate, db: Session = Depends(get_db)):
     """
     Crear una nueva categoría.
+
+    Parámetros:
+        category (CategoryCreate): Datos de la nueva categoría.
+        db (Session): Sesión de la base de datos proporcionada por la dependencia.
+
+    Retorna:
+        CategoryResponse: La categoría creada.
     """
     service = CategoryService(db)
     return service.create_category(category)
@@ -41,6 +60,13 @@ def create_category(category: CategoryCreate, db: Session = Depends(get_db)):
 def delete_category(category_id: int, db: Session = Depends(get_db)):
     """
     Eliminar una categoría por su ID.
+
+    Parámetros:
+        category_id (int): Identificador único de la categoría a eliminar.
+        db (Session): Sesión de la base de datos proporcionada por la dependencia.
+
+    Retorna:
+        CategoryResponse: La categoría eliminada.
     """
     service = CategoryService(db)
     deleted_category = service.delete_category(category_id)

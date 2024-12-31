@@ -15,7 +15,7 @@ class LocationCategoryReviewService:
         Obtener recomendaciones de exploración con combinaciones de ubicación y categoría
         que no han sido revisadas en los últimos 30 días, priorizando las nunca revisadas.
         """
-        cutoff_date = datetime.utcnow() - timedelta(seconds=30)
+        cutoff_date = datetime.utcnow() - timedelta(days=30)
 
         recommendations = (
             self.db.query(LocationCategoryReviewed)
@@ -38,6 +38,9 @@ class LocationCategoryReviewService:
             self.db.add(item)
 
         self.db.commit()
+
+        if not recommendations:
+            raise HTTPException(status_code=404, detail="No se encontraron recomendaciones")
 
         return [
             {

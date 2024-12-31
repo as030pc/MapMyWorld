@@ -12,8 +12,17 @@ router = APIRouter(prefix="/recommendations", tags=["Recommendations"])
 @router.get("/", summary="Get exploration recommendations", response_model=list[LocationCategoryReviewResponse])
 def get_recommendations(limit: int = 10, db: Session = Depends(get_db)):
     """
-    Returns up to 10 location-category combinations that haven't been reviewed
-    in the last 30 days, prioritizing those that have never been reviewed.
+    Obtener recomendaciones de exploración.
+
+    Retorna hasta 10 combinaciones de ubicación y categoría que no han sido revisadas
+    en los últimos 30 días, priorizando aquellas que nunca han sido revisadas.
+
+    Parámetros:
+        limit (int): Número máximo de recomendaciones a devolver. Por defecto es 10.
+        db (Session): Sesión de la base de datos proporcionada por la dependencia.
+
+    Retorna:
+        list[LocationCategoryReviewResponse]: Lista de recomendaciones de exploración.
     """
     service = LocationCategoryReviewService(db)
     return service.get_exploration_recommendations(limit)
@@ -24,8 +33,14 @@ def add_location_category_review(
     review_data: LocationCategoryReviewCreate, db: Session = Depends(get_db)
 ):
     """
-    Add a new location-category review entry.
-    Validates the existence of location and category, and prevents duplicates.
+    Crear una nueva revisión de ubicación-categoría.
+
+    Parámetros:
+        review (LocationCategoryReviewCreate): Datos de la nueva revisión.
+        db (Session): Sesión de la base de datos proporcionada por la dependencia.
+
+    Retorna:
+        LocationCategoryReviewResponse: La revisión creada.
     """
     service = LocationCategoryReviewService(db)
     return service.create_location_category_review(review_data)

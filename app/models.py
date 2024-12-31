@@ -5,6 +5,17 @@ from app.database import Base
 
 
 class Location(Base):
+    """
+    Modelo de la tabla 'locations' en la base de datos.
+
+    Atributos:
+        id (int): Identificador único de la ubicación.
+        name (str): Nombre de la ubicación.
+        latitude (float): Latitud de la ubicación.
+        longitude (float): Longitud de la ubicación.
+        created_at (datetime): Fecha y hora de creación de la ubicación.
+        location_categories (relationship): Relación con la tabla 'location_categories_reviewed'.
+    """
     __tablename__ = "locations"
 
     id = Column(Integer, primary_key=True, index=True)
@@ -17,6 +28,14 @@ class Location(Base):
 
 
 class Category(Base):
+    """
+    Modelo de la tabla 'categories' en la base de datos.
+
+    Atributos:
+        id (int): Identificador único de la categoría.
+        name (str): Nombre de la categoría.
+        location_categories (relationship): Relación con la tabla 'location_categories_reviewed'.
+    """
     __tablename__ = "categories"
 
     id = Column(Integer, primary_key=True, index=True)
@@ -25,6 +44,17 @@ class Category(Base):
 
 
 class LocationCategoryReviewed(Base):
+    """
+    Modelo de la tabla 'location_categories_reviewed' en la base de datos.
+
+    Atributos:
+        id (int): Identificador único de la relación.
+        location_id (int): Identificador de la ubicación.
+        category_id (int): Identificador de la categoría.
+        reviewed_at (datetime): Fecha y hora de la última revisión.
+        location (relationship): Relación con la tabla 'locations'.
+        category (relationship): Relación con la tabla 'categories'.
+    """
     __tablename__ = "location_category_reviewed"
 
     id = Column(Integer, primary_key=True, autoincrement=True) 
