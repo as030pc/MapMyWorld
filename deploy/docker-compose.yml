@@ -1,0 +1,15 @@
+version: "3.9"
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: map_my_world_app
+    ports:
+      - "8000:8000" 
+    environment:
+      - DATABASE_URL=sqlite:///./map_my_world.db
+    volumes:
+      - .:/app
+    command: alembic upgrade head && uvicorn main:app --host 0.0.0.0 --port 8000
